@@ -1,0 +1,26 @@
+@model User
+<nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+    <div class="container">
+        <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Wall">
+            <h2>The Wall</h2>
+        </a>
+        <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
+            <ul class="navbar-nav align-items-center">
+                <a class="text-dark" href="/wall">
+                    <h5>Welcome @Model.FirstName</h5>
+                </a>
+                <a class="btn btn-outline-dark logoutbtn" asp-area="" asp-controller="Home"
+                    asp-action="Logout">Log Out</a>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<form action="/addmessage" method="POST">
+    <div class="form-group">
+        <label for="MsgContent">Post a message</label>
+        <Textarea class="form-control" name="MsgContent"></Textarea>
+    </div>
+    <button type="sumbit" class="btn1 btn btn-primary">Post a message</button>
+</form>
+
