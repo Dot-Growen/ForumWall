@@ -13,8 +13,11 @@ namespace TheWall.Models {
         public string MsgContent { get; set; }
 
         public int UserId { get; set; }
-        public User MsgCreator { get; set; }
         
+        public User MsgCreator { get; set; }
+
+        public List<Comment> MsgComments { get; set; }
+
         public DateTime CreatedAt { get; set; } = DateTime.Now;
 
         public DateTime UpdatedAt { get; set; } = DateTime.Now;

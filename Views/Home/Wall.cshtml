@@ -1,5 +1,5 @@
-@model User
-<nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+@model List<Message>
+<nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light border-bottom box-shadow mb-3">
     <div class="container">
         <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Wall">
             <h2>The Wall</h2>
@@ -7,7 +7,7 @@
         <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
             <ul class="navbar-nav align-items-center">
                 <a class="text-dark" href="/wall">
-                    <h5>Welcome @Model.FirstName</h5>
+                    <h5>Welcome @ViewBag.ViewUser.FirstName</h5>
                 </a>
                 <a class="btn btn-outline-dark logoutbtn" asp-area="" asp-controller="Home"
                     asp-action="Logout">Log Out</a>
@@ -16,11 +16,50 @@
     </div>
 </nav>
 
-<form action="/addmessage" method="POST">
+<!-- POST REQUEST -->
+
+<form class="reg_form" action="/addmessage" method="POST">
     <div class="form-group">
         <label for="MsgContent">Post a message</label>
         <Textarea class="form-control" name="MsgContent"></Textarea>
+        <input type="hidden" name="UserId" value="@ViewBag.ViewUser.UserId">
     </div>
-    <button type="sumbit" class="btn1 btn btn-primary">Post a message</button>
+    <button type="sumbit" class="btn1 btn btn-outline-primary">Post a message</button>
 </form>
 
+<!-- MESSAGE SECTION -->
+
+<div>
+
+    
+        @foreach(var m in Model){
+            <div class="feed_group">
+            <h6>@m.MsgCreator.FirstName @m.MsgCreator.LastName @m.CreatedAt.ToString("d") @m.CreatedAt.ToString("t") <a class="delete" href="/deletemsg/@m.MessageId">delete</a> </h6> 
+            <p>@m.MsgContent</p>
+            
+                
+                @foreach(var c in ViewBag.ViewCmt){
+                    @if(c.MessageId == m.MessageId){
+                        <div class="feed_comment">
+                            <h6>@c.CmtCreator.FirstName @c.CmtCreator.LastName @c.CreatedAt.ToString("d") @c.CreatedAt.ToString("t") <a class="delete" href="/deletecmt/@c.CommentId">delete</a> </h6> 
+                            <p>@c.CmtContent</p>
+                        </div>
+                    } 
+                }
+            
+        <form class="cmt_form" action="/addcomment" method="POST">
+            <div class="form-group">
+                <label for="CmtContent">Post a comment</label>
+                <Textarea class="form-control" name="CmtContent"></Textarea>
+                <input type="hidden" name="MessageId" value="@m.MessageId">
+                <input type="hidden" name="UserId" value="@ViewBag.ViewUser.UserId">
+            </div>
+            <button type="sumbit" class="btn1 btn btn-primary">Post a comment</button>
+        </form>
+        </div>
+        }   
+    
+
+
+
+</div>

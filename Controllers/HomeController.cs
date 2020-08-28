@@ -40,8 +40,18 @@ namespace TheWall.Controllers
             if (HttpContext.Session.GetInt32 ("UserId") == null) {
                 return RedirectToAction ("loginpage");
             } else {
-                User user = _context.Users.SingleOrDefault(u => u.UserId == HttpContext.Session.GetInt32 ("UserId"));
-                return View (user);
+                ViewBag.ViewUser = _context.Users.SingleOrDefault(u => u.UserId == HttpContext.Session.GetInt32 ("UserId"));
+                ViewBag.ViewCmt = _context.Comments
+                    .Include(c => c.CmtCreator)
+                    .Include(c => c.MsgCmtIsUnder)
+                    .ThenInclude(c => c.MsgComments)
+                    .ToList();
+                List<Message> messages = _context.Messages
+                    .Include(m => m.MsgCreator)
+                    .ThenInclude(m => m.UsersMessages)
+                    .ThenInclude(m => m.MsgComments)
+                    .ToList();
+                return View (messages);
             }
         }
 
@@ -53,7 +63,7 @@ namespace TheWall.Controllers
             return View ("loginpage");
         }
 
-        [HttpGet("deletemsg")]
+        [HttpGet("deletemsg/{Id}")]
         public IActionResult Delete (int Id){
             if (HttpContext.Session.GetInt32 ("UserId") == null) {
                 return RedirectToAction ("loginpage");
@@ -65,7 +75,7 @@ namespace TheWall.Controllers
             }
         }
 
-        [HttpGet("deletecmt")]
+        [HttpGet("deletecmt/{Id}")]
         public IActionResult Comment (int Id){
             if (HttpContext.Session.GetInt32 ("UserId") == null) {
                 return RedirectToAction ("loginpage");
@@ -124,8 +134,31 @@ namespace TheWall.Controllers
             }
         }
 
-        // [HttpPost("addmessage")]
+        [HttpPost("addmessage")]
+        public IActionResult AddMessage (Message msg) {
+            if (HttpContext.Session.GetInt32 ("UserId") == null) {
+                return RedirectToAction ("loginpage");
+            } else {
+                _context.Messages.Add(msg);
+                _context.SaveChanges();
+                return RedirectToAction ("wall");
+            }
+        }
 
+        [HttpPost("addcomment")]
+        public IActionResult AddComment (int UserId, int MessageId, string CmtContent) {
+            if (HttpContext.Session.GetInt32 ("UserId") == null) {
+                return RedirectToAction ("loginpage");
+            } else {
+                Comment newComment = new Comment();
+                newComment.MessageId = MessageId;
+                newComment.UserId = UserId;
+                newComment.CmtContent = CmtContent;
+                _context.Comments.Add(newComment);
+                _context.SaveChanges();
+                return RedirectToAction ("wall");
+            }
+        }
 
     }
 }

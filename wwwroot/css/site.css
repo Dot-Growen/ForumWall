@@ -61,6 +61,7 @@ html {
 body {
   /* Margin bottom by footer height */
   margin-bottom: 60px;
+
 }
 .footer {
   position: absolute;
@@ -73,9 +74,13 @@ body {
 /* Extra
 -------------------------------------------------- */
 
-form {
+.reg_form {
   padding: 1em;
   margin-top: 2em;
+}
+
+.cmt_form {
+  padding: 1em;
 }
 
 h3 {
@@ -106,4 +111,27 @@ a {
 
 .btn1 {
   float: right;
+}
+
+.feed_group {
+  margin: 2em 1em ;
+  padding: .3em 1em;
+  border-left: 1px solid #004ead;
+}
+
+.feed_comment {
+  margin: 0em 1em ;
+  padding: 1em 1em;
+  border-left: 1px solid black;
+}
+
+.delete {
+    color: rgb(158, 0, 0);
+    margin-left: .3em;
+    width: 3em;
+    font-size: .5em;
+    vertical-align: middle;
+    padding: .3em;
+    border-radius: .2em;
+    border: 1px solid rgb(146, 1, 1);
 }
