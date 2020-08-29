@@ -21,8 +21,9 @@
 <form class="reg_form" action="/addmessage" method="POST">
     <div class="form-group">
         <label for="MsgContent">Post a message</label>
-        <Textarea class="form-control" name="MsgContent"></Textarea>
+        <Textarea class="form-control" name="MsgContent" required></Textarea>
         <input type="hidden" name="UserId" value="@ViewBag.ViewUser.UserId">
+        <span class="text-danger" for="MsgContent"></span>
     </div>
     <button type="sumbit" class="btn1 btn btn-outline-primary">Post a message</button>
 </form>
@@ -50,7 +51,7 @@
         <form class="cmt_form" action="/addcomment" method="POST">
             <div class="form-group">
                 <label for="CmtContent">Post a comment</label>
-                <Textarea class="form-control" name="CmtContent"></Textarea>
+                <Textarea class="form-control" name="CmtContent" required></Textarea>
                 <input type="hidden" name="MessageId" value="@m.MessageId">
                 <input type="hidden" name="UserId" value="@ViewBag.ViewUser.UserId">
             </div>
